@@ -4,9 +4,9 @@ class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
 
   final List<ShopItem> items = [
-    ShopItem("Lihat Item", Icons.checklist, Colors.indigo),
-    ShopItem("Tambah Item", Icons.add_shopping_cart, Colors.orange),
-    ShopItem("Logout", Icons.logout, Colors.deepOrange),
+    ShopItem("Lihat Item", Icons.checklist, Colors.blueGrey),
+    ShopItem("Tambah Item", Icons.add_shopping_cart, Colors.green),
+    ShopItem("Logout", Icons.logout, Colors.red),
   ];
 
   @override
