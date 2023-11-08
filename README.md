@@ -6,6 +6,7 @@ Kelas: PBP C <br>
 NPM: 2206030855 <br>
 
 <h2>Tugas 7 PBP Ganjil 2023/2024</h2>
+
 * Apa perbedaan utama antara stateless dan stateful widget dalam konteks pengembangan aplikasi Flutter?
 * Sebutkan seluruh widget yang kamu gunakan untuk menyelesaikan tugas ini dan jelaskan fungsinya masing-masing.
 * Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)
@@ -19,13 +20,13 @@ Stateless widgets adalah widgets yang tidak akan berubah selama aplikasi berjala
 bisa berubah selama aplikasi berjalan. <br>
 
 <h4>2. Sebutkan seluruh widget yang kamu gunakan untuk menyelesaikan tugas ini dan jelaskan fungsinya masing-masing.</h4>
+
 * Pada main.dart:
   * MyApp: berfungsi sebagai aplikasi utama.
   * MaterialApp: berfungsi untuk set title dan tema aplikasi.
   * ThemeData: berfungsi untuk set tema aplikasi.
   * MyHomePage: berfungsi sebagai widget home page.
-<br>
-<br>
+
 * Pada menu.dart:
   * Scaffold: berfungsi sebagai container dengan ukuran _fit-content_ / mengambil space sebanyak yang ada.
   * AppBar: berfungsi sebagai komponen yang berisi title dan terletak di paling atas aplikasi
@@ -44,6 +45,7 @@ bisa berubah selama aplikasi berjalan. <br>
   * Icon: berfungsi untuk menampilkan icon
 
 <h4>3. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)</h4>
+
 * Membuat project flutter
   * cd ke directory yang diinginkan
   ```agsl
