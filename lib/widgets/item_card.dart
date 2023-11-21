@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:istock/screens/istock_form.dart';
-import 'package:istock/screens/istock_item.dart';
+import 'package:istock/screens/list_item.dart';
+import 'package:istock/screens/login.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ShopItem {
   final String name;
@@ -17,10 +20,11 @@ class ShopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: item.color,
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
@@ -34,8 +38,28 @@ class ShopCard extends StatelessWidget {
           if (item.name == "Lihat Item") {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const ViewItemPage()),
+              MaterialPageRoute(builder: (context) => const ItemPage()),
             );
+          }
+          if (item.name == "Logout") {
+            final response = await request.logout(
+              "http://steven-faustin-tugas.pbp.cs.ui.ac.id/auth/logout/"
+            );
+            String message = response["message"];
+            if (response['status']) {
+              String uname = response["username"];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message Sampai jumpa, $uname."),
+              ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message"),
+              ));
+            }
           }
         },
         child: Container(

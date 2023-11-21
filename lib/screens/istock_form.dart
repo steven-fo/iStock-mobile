@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:istock/screens/menu.dart';
 import 'package:istock/widgets/left_drawer.dart';
-import 'package:istock/widgets/item.dart';
 
 class ItemFormPage extends StatefulWidget {
   const ItemFormPage({super.key});
@@ -8,8 +9,6 @@ class ItemFormPage extends StatefulWidget {
   @override
   State<ItemFormPage> createState() => _ItemFormPageState();
 }
-
-List<Item> items = [];
 
 class _ItemFormPageState extends State<ItemFormPage> {
   final _formKey = GlobalKey<FormState>();
@@ -20,6 +19,8 @@ class _ItemFormPageState extends State<ItemFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
+
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -140,36 +141,33 @@ class _ItemFormPageState extends State<ItemFormPage> {
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(Colors.black87),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        items.add(Item(_name, _amount, _type, _description));
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Item berhasil tersimpan'),
-                              content: SingleChildScrollView(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Nama: $_name'),
-                                    Text('Amount: $_amount'),
-                                    Text('Tipe: $_type'),
-                                    Text('Deskripsi: $_description'),
-                                  ],
-                                ),
-                              ),
-                              actions: [
-                                TextButton(
-                                  child: const Text('OK'),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ],
-                            );
-                          }
+                        final response = await request.postJson(
+                          "http://steven-faustin-tugas.pbp.cs.ui.ac.id/create-flutter/",
+                          jsonEncode(<String, String>{
+                            'name': _name,
+                            'amount': _amount.toString(),
+                            'type': _type,
+                            'description': _description,
+                          })
                         );
+                        if (response['status'] == 'success') {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content: Text("Item baru berhasil disimpan!"),
+                          ));
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => MyHomePage()),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(
+                            content:
+                              Text("Terdapat kesalahan, silahkan coba lagi."),
+                          ));
+                        }
                         _formKey.currentState!.reset();
                       }
                     },

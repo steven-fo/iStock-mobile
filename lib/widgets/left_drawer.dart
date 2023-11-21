@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:istock/screens/menu.dart';
 import 'package:istock/screens/istock_form.dart';
-import 'package:istock/screens/istock_item.dart';
+import 'package:istock/screens/list_item.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -54,7 +54,7 @@ class LeftDrawer extends StatelessWidget {
             onTap: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const ViewItemPage()),
+                MaterialPageRoute(builder: (context) => const ItemPage()),
               );
             },
           ),
