@@ -361,5 +361,184 @@ Ditambahkan di funtion onPressed() pada ElevatedButton
       }
     }
     ```
+<h2>Tugas 9 PBP Ganjil 2023/2024</h2>
+
+* Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?
+* Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+* Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+* Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+* Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.
+* Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+
+<h4>1. Apakah bisa kita melakukan pengambilan data JSON tanpa membuat model terlebih dahulu? Jika iya, apakah hal tersebut lebih baik daripada membuat model sebelum melakukan pengambilan data JSON?</h4>
+Bisa, tetapi data akan lebih mudah divalidasi dan disimpan dengan menggunakan model.
+
+<h4>2. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.</h4>
+Sesuai namanya yaitu, CookieRequest, berfungsi untuk mengambil cookie pada web. CookieRequest dibagikan ke semua komponen agar state setiap komponen sama.
+
+<h4>3. Jelaskan mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.</h4>
+Data diambil dari endpoint /json/ pada web yang telah di deploy. Dari hasil json tersebut kemudian di decode, lalu dibuat menjadi model dengan method fromJson. Model ini kemudian bisa ditampilkan di Flutter
+
+<h4>4. Jelaskan mekanisme autentikasi dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.</h4>
+Pada flutter, user memasukkan username dan password. Kedua data tersebut kemudian di pass ke endpoint autentikasi django pada web yang telah di deploy. Dari endpoint ini akan di return apakah pengguna berhasil login atau tidak.
+Jika user berhasil login, maka menu bisa ditampilkan. Jika tidak, maka user tidak bisa mengakses menu.
+
+<h4>5. Sebutkan seluruh widget yang kamu pakai pada tugas ini dan jelaskan fungsinya masing-masing.</h4>
+
+* Pada main.dart:
+    * MyApp: berfungsi sebagai aplikasi utama.
+    * MaterialApp: berfungsi untuk set title dan tema aplikasi.
+    * ThemeData: berfungsi untuk set tema aplikasi.
+    * MyHomePage: berfungsi sebagai widget home page.
+
+* Pada menu.dart:
+    * Scaffold: berfungsi sebagai container dengan ukuran _fit-content_ / mengambil space sebanyak yang ada.
+    * AppBar: berfungsi sebagai komponen yang berisi title dan terletak di paling atas aplikasi
+    * Text: berfungsi sebagai widget untuk menampilkan text
+    * TextStyle: berfungsi sebagai widget untuk meng-custom text
+    * SingleChildScrollView: berfungsi sebagai widget yang memungkinkan single scroll secara vertikal
+    * Padding: berfungsi sebagai widget untuk men-set padding suatu widget
+    * GridView: berfungsi untuk menerapkan grid layout pada aplikasi.
+    * ShopCard: widget yang dibuat developer untuk menampilkan tombol Lihat Item, Tambah Item, dan Logout.
+    * Material: berfungsi untuk membuat sebuah user interfaces pada aplikasi.
+    * InkWell: berfungsi untuk memberikan onTap response pada widget parent nya
+    * SnackBar: berfungsi untuk menampilkan / pop-up message kepada user
+    * Container: berfungsi sebagai container
+    * Center: berfungsi untuk men-center widget child nya
+    * Column: berfungsi untuk set layout pada widget child nya
+    * Icon: berfungsi untuk menampilkan icon
+  
+* Pada file lain:
+    * TextButton: Button dengan text
+
+<h4>6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).</h4>
+- Membuat halaman login pada proyek tugas Flutter. <br>
+    membuat file dart untuk login page
+- 
+    ```
+    import 'package:istock/screens/menu.dart';
+    import 'package:flutter/material.dart';
+    import 'package:pbp_django_auth/pbp_django_auth.dart';
+    import 'package:provider/provider.dart';
+    
+    void main() {
+      runApp(const LoginApp());
+    }
+    
+    class LoginApp extends StatelessWidget {
+      const LoginApp({super.key});
+    
+      @override
+      Widget build(BuildContext context) {
+        return MaterialApp(
+          title: 'Login',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const LoginPage(),
+        );
+      }
+    }
+    
+    class LoginPage extends StatefulWidget {
+      const LoginPage({super.key});
+    
+      @override
+      _LoginPageState createState() => _LoginPageState();
+    }
+    
+    class _LoginPageState extends State<LoginPage> {
+      final TextEditingController _usernameController = TextEditingController();
+      final TextEditingController _passwordController = TextEditingController();
+    
+      @override
+      Widget build(BuildContext context) {
+        final request = context.watch<CookieRequest>();
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Login'),
+          ),
+          body: Container(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextField(
+                  controller: _usernameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Username',
+                  ),
+                ),
+                const SizedBox(height: 12.0),
+                TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                  ),
+                  obscureText: true,
+                ),
+                const SizedBox(height: 24.0),
+                ElevatedButton(
+                  onPressed: () async {
+                    String username = _usernameController.text;
+                    String password = _passwordController.text;
+    
+                    // Cek kredensial
+                    // Untuk menyambungkan Android emulator dengan Django pada localhost,
+                    // gunakan URL http://10.0.2.2/
+                    final response = await request.login("https://steven-faustin-tugas.pbp.cs.ui.ac.id/auth/login/", {
+                      'username': username,
+                      'password': password,
+                    });
+    
+                    if (request.loggedIn) {
+                      String message = response['message'];
+                      String uname = response['username'];
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => MyHomePage()),
+                      );
+                      ScaffoldMessenger.of(context)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(
+                            SnackBar(content: Text("$message Selamat datang, $uname.")));
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Login Gagal'),
+                          content:
+                          Text(response['message']),
+                          actions: [
+                            TextButton(
+                              child: const Text('OK'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  child: const Text('Login'),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    }
+    ```
+- Mengintegrasikan sistem autentikasi Django dengan proyek tugas Flutter.<br>
+    Membuat views.py untuk handle autentikasi pada main app Django.
+    Kemudian, flutter akan mengirim data ke endpoint tersebut untuk dihandle oleh Django
+
+- Membuat model kustom sesuai dengan proyek aplikasi Django. <br>
+    Mengambil data json melalui endpoint /json/ pada web. Data tersebut di copy paste ke Quicktype untuk diubah menjadi class Item.
+
+- Membuat halaman yang berisi daftar semua item yang terdapat pada endpoint JSON di Django yang telah kamu deploy. <br>
+    Mengambil data yang ada melalui endpoint /json/ kemudian di parse ke model yang telah dibuat.
+    Dari hasil parse tersebut dapat di map / loop untuk ditampilkan.
 
 <hr>

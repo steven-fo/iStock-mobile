@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:istock/screens/menu.dart';
 import 'package:istock/widgets/left_drawer.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class ItemFormPage extends StatefulWidget {
   const ItemFormPage({super.key});
@@ -144,7 +146,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         final response = await request.postJson(
-                          "http://steven-faustin-tugas.pbp.cs.ui.ac.id/create-flutter/",
+                          "https://steven-faustin-tugas.pbp.cs.ui.ac.id/create-flutter/",
                           jsonEncode(<String, String>{
                             'name': _name,
                             'amount': _amount.toString(),
