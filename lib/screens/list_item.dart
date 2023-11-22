@@ -8,6 +8,7 @@ class ItemPage extends StatefulWidget {
   const ItemPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ItemPageState createState() => _ItemPageState();
 }
 
@@ -19,6 +20,7 @@ class _ItemPageState extends State<ItemPage> {
     var response = await http.get(url, headers: {"Content-Type": "application/json"},
     );
     var data = jsonDecode(utf8.decode(response.bodyBytes));
+    // ignore: non_constant_identifier_names
     List<Item> list_item = [];
     for (var d in data) {
       if (d != null) {

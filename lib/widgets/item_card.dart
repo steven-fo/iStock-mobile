@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:istock/screens/istock_form.dart';
 import 'package:istock/screens/list_item.dart';
@@ -57,7 +59,7 @@ class ShopCard extends StatelessWidget {
               );
             } else {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text("$message"),
+                content: Text("$message."),
               ));
             }
           }
