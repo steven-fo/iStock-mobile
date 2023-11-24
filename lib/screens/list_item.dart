@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:istock/models/item.dart';
 import 'package:istock/widgets/left_drawer.dart';
+import 'package:istock/screens/detail_item.dart';
 
 class ItemPage extends StatefulWidget {
   const ItemPage({Key? key}) : super(key: key);
@@ -57,31 +58,45 @@ class _ItemPageState extends State<ItemPage> {
             } else {
               return ListView.builder(
                 itemCount: snapshot.data!.length,
-                itemBuilder: (_, index) => Container(
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 12
-                  ),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${snapshot.data![index].fields.name}",
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
+                itemBuilder: (_, index) => InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DetailItemPage(
+                          item: snapshot.data![index]
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.amount}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.type}"),
-                      const SizedBox(height: 10),
-                      Text("${snapshot.data![index].fields.description}"),
-                    ],
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12
+                    ),
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${snapshot.data![index].fields.name}",
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text("${snapshot.data![index].fields.amount}"),
+                        const SizedBox(height: 10),
+                        Text("${snapshot.data![index].fields.type}"),
+                        const SizedBox(height: 10),
+                        Text("${snapshot.data![index].fields.description}"),
+                      ],
+                    ),
                   ),
-                ),
+                )
+
+
               );
             }
           }

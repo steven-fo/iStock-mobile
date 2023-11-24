@@ -45,7 +45,7 @@ class ShopCard extends StatelessWidget {
           }
           if (item.name == "Logout") {
             final response = await request.logout(
-              "http://steven-faustin-tugas.pbp.cs.ui.ac.id/auth/logout/"
+              "https://steven-faustin-tugas.pbp.cs.ui.ac.id/auth/logout/"
             );
             String message = response["message"];
             if (response['status']) {
